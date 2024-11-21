@@ -1,0 +1,11 @@
+{
+    "posts": [
+      { "id": 1, "title": "Hola Mundo", "author": "John Doe" },
+      { "id": 2, "title": "Aprendiendo JSON Server", "author": "Jane Doe" }
+    ],
+    "comments": [
+      { "id": 1, "postId": 1, "body": "¡Gran publicación!" },
+      { "id": 2, "postId": 2, "body": "Muy informativa." }
+    ],
+    "profile": { "name": "John Doe" }
+  }
