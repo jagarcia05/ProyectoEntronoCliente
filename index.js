@@ -137,15 +137,15 @@ function procesardatos(games) {
       }
     });
 
-    let genero = tarjeta.querySelector("#genres");
-    genero.innerHTML = ""
-
-    game.genres.forEach(genero => {
-      let platformName = plataforma.platform.name;
-      let icono = document.createElement("img");
-
-      genero.appendChild(genero);
-    });
+  let contenedorGeneros = tarjeta.querySelector("#genres"); 
+  contenedorGeneros.innerHTML = "";
+  
+  game.genres.forEach(genero => {
+    let genreElement = document.createElement("div");
+    genreElement.textContent = genero.name; 
+  
+    contenedorGeneros.appendChild(genreElement); 
+    });
   });
 }
 
