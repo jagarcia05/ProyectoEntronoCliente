@@ -1,28 +1,28 @@
 import { plataformaicono } from './plataformaicono.js'; // Importamos el objeto
 
-
 let page = 1;
-let juegosCompletos = []; // Aquí guardaremos todos los juegos
+let juegosCompletos = []; // Aquí guardamos todos los juegos
+let filtroGenero = ''; // Filtro de género
+let filtroPlataforma = ''; // Filtro de plataforma
 
-// Función para obtener todos los juegos sin filtros de plataforma y género
-function getGame(page=1, pageSize = 40) {
-  let url = `https://api.rawg.io/api/games?key=236c519bed714a588c3f1aee662a2c2d&page=${page}&page_size=${pageSize}`;
-
+// Función para obtener todos los juegos sin filtros en la URL
+function getGames(page = 1, pageSize = 40) {
+  const url = `https://api.rawg.io/api/games?key=236c519bed714a588c3f1aee662a2c2d&page=${page}&page_size=${pageSize}`;
   console.log("URL construida:", url);  // Para depuración
 
   // Realizar la solicitud a la API
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      console.log("Respuesta de la API:", data);  // Ver la respuesta completa
       if (data.results && data.results.length > 0) {
         juegosCompletos = data.results; // Guardamos los juegos completos
         console.log("Juegos cargados:", juegosCompletos);
-        procesardatos(juegosCompletos); // Procesamos los juegos completos
+        aplicarFiltros(); // Aplicamos los filtros locales
+        procesarDatos(juegosCompletos); // Procesamos los juegos completos
         cargarFiltros(juegosCompletos); // Llenamos los filtros de plataforma y género
       } else {
         console.log("No se encontraron juegos.");
-        mostrarMensajeSinResultados(); // Función para mostrar un mensaje sin resultados
+        mostrarMensajeSinResultados(); // Mostramos mensaje si no hay resultados
       }
     })
     .catch(error => console.error("Error fetching data:", error));
@@ -30,44 +30,53 @@ function getGame(page=1, pageSize = 40) {
 
 // Función para mostrar un mensaje cuando no hay resultados
 function mostrarMensajeSinResultados() {
-  let contenedor = document.getElementById("contenedor-juegos");
-  contenedor.innerHTML = "<p>No se encontraron juegos que coincidan con los filtros seleccionados.</p>";
+  const contenedor = document.getElementById("contenedor");
+  if (contenedor) {
+    contenedor.innerHTML = "<p>No se encontraron juegos que coincidan con los filtros seleccionados.</p>";
+  }
 }
 
 // Función para procesar los datos de los juegos y actualizarlos en la UI
-function procesardatos(games) {
+// Función para procesar los juegos
+function procesarDatos(games) {
   console.log("Procesando juegos:", games); // Log de los juegos procesados
-  let plantilla = document.getElementById("plantilla");
-  let contenedor = plantilla.parentNode;
-  contenedor.innerHTML = ""; // Limpiamos el contenedor antes de agregar las tarjetas
+
+  const contenedor = document.getElementById("contenedor");  // Accedemos directamente al contenedor
+  const plantilla = document.getElementById("plantilla");
+
+  
+
+  // Limpiamos el contenedor antes de agregar las tarjetas
+  contenedor.innerHTML = "";
 
   // Procesar y mostrar las tarjetas de los juegos
   games.forEach(game => {
-    let tarjeta = plantilla.cloneNode(true);
-    contenedor.appendChild(tarjeta);
+    console.log(plantilla)
+    const tarjeta = plantilla.cloneNode(true); // Clonamos la plantilla
+    contenedor.appendChild(tarjeta); // Añadimos la tarjeta al contenedor
 
-    let imagen = tarjeta.querySelector("#background_image");
+    const imagen = tarjeta.querySelector("#background_image");
     imagen.src = game.background_image;
     imagen.alt = game.name;
 
-    let titulo = tarjeta.querySelector("#name");
+    const titulo = tarjeta.querySelector("#name");
     titulo.textContent = game.name;
 
-    let fechaLanzamiento = tarjeta.querySelector("#released");
+    const fechaLanzamiento = tarjeta.querySelector("#released");
     fechaLanzamiento.textContent = game.released;
 
-    let plataformas = tarjeta.querySelector("#platforms");
+    const plataformas = tarjeta.querySelector("#platforms");
     plataformas.innerHTML = ""; // Limpiamos las plataformas anteriores
 
     let uniqueIcons = new Set();
     game.platforms.forEach(plataforma => {
-      let platformName = plataforma.platform.name;
-      let iconSrc = plataformaicono[platformName];
+      const platformName = plataforma.platform.name;
+      const iconSrc = plataformaicono[platformName];
 
       if (iconSrc && !uniqueIcons.has(iconSrc)) {
         uniqueIcons.add(iconSrc);
 
-        let icono = document.createElement("img");
+        const icono = document.createElement("img");
         icono.src = iconSrc;
         icono.alt = platformName;
         icono.style.width = "15px";
@@ -79,16 +88,50 @@ function procesardatos(games) {
       }
     });
 
-    let contenedorGeneros = tarjeta.querySelector("#genres");
+    const contenedorGeneros = tarjeta.querySelector("#genres");
     contenedorGeneros.innerHTML = "";
 
     game.genres.forEach(genero => {
-      let genreElement = document.createElement("div");
+      const genreElement = document.createElement("div");
       genreElement.textContent = genero.name;
-
       contenedorGeneros.appendChild(genreElement);
     });
   });
+}
+
+
+// Función para aplicar los filtros localmente
+function aplicarFiltros() {
+  let juegosFiltrados = juegosCompletos;
+
+  // Filtrar por género
+  if (filtroGenero) {
+    juegosFiltrados = juegosFiltrados.filter(game =>
+      game.genres.some(genre => genre.name.toLowerCase() === filtroGenero.toLowerCase())
+    );
+  }
+
+  // Filtrar por plataforma
+  if (filtroPlataforma) {
+    juegosFiltrados = juegosFiltrados.filter(game =>
+      game.platforms.some(platform => platform.platform.name.toLowerCase() === filtroPlataforma.toLowerCase())
+    );
+  }
+
+  // Filtrar por búsqueda
+  const searchTerm = document.querySelector(".search-input input").value.toLowerCase();
+  if (searchTerm) {
+    juegosFiltrados = juegosFiltrados.filter(game =>
+      game.name.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  // Procesar y mostrar los juegos filtrados
+  procesarDatos(juegosFiltrados);
+
+  if (juegosFiltrados.length === 0) {
+    mostrarMensajeSinResultados(); // Mostrar mensaje si no hay juegos que coincidan
+  }
 }
 
 // Función para cargar los filtros de géneros y plataformas solo si es necesario
@@ -105,13 +148,13 @@ function cargarFiltros(games) {
   });
 
   // Llenar el listado de géneros
-  let listaGeneros = document.getElementById("listaGeneros");
+  const listaGeneros = document.getElementById("listaGeneros");
   listaGeneros.innerHTML = ''; // Limpiar lista previa
   listadoGeneros.forEach(genero => {
-    let option = document.createElement("li");
+    const option = document.createElement("li");
     option.classList.add("dropdown-item-listageneros");
 
-    let option1 = document.createElement("a");
+    const option1 = document.createElement("a");
     option1.classList.add("text-decoration-none");
     option1.style.color = "black";
     option1.href = "#";
@@ -124,32 +167,31 @@ function cargarFiltros(games) {
     // Listener para filtrar por género
     option1.addEventListener('click', function (event) {
       event.preventDefault();
-      const genre = this.getAttribute('data-genre');
-      console.log("Filtrando por género:", genre);
-      aplicarFiltros(genre, ''); // Llamada con el género seleccionado
+      filtroGenero = this.getAttribute('data-genre'); // Guardamos el filtro de género
+      aplicarFiltros(); // Aplicamos los filtros localmente
     });
   });
 
   // Llenar el listado de plataformas
-  let listaPlataformas = document.getElementById("listaPlataformas");
+  const listaPlataformas = document.getElementById("listaPlataformas");
   listaPlataformas.innerHTML = ''; // Limpiar lista previa
   listadoPlataformas.forEach(plataforma => {
-    let option = document.createElement("li");
+    const option = document.createElement("li");
     option.classList.add("dropdown-item-listaplataformas");
 
     option.setAttribute('data-plataforma', plataforma);
 
-    let platformContainer = document.createElement("div");
+    const platformContainer = document.createElement("div");
     platformContainer.classList.add("d-flex", "align-items-center");
 
-    let platformIcon = document.createElement("img");
+    const platformIcon = document.createElement("img");
     platformIcon.src = plataformaicono[plataforma] || "img/default-icon.svg";
     platformIcon.alt = plataforma;
     platformIcon.style.width = "20px";
     platformIcon.style.height = "20px";
     platformIcon.style.marginRight = "10px";
 
-    let platformName = document.createElement("span");
+    const platformName = document.createElement("span");
     platformName.textContent = plataforma;
 
     platformContainer.appendChild(platformIcon);
@@ -161,80 +203,61 @@ function cargarFiltros(games) {
     // Listener para filtrar por plataforma
     option.addEventListener('click', function (event) {
       event.preventDefault();
-      const plataforma = this.getAttribute('data-plataforma');
-      console.log("Filtrando por plataforma:", plataforma);
-      
-      aplicarFiltros('', plataforma); // Llamada con la plataforma seleccionada
+      filtroPlataforma = this.getAttribute('data-plataforma'); // Guardamos el filtro de plataforma
+      aplicarFiltros(); // Aplicamos los filtros localmente
     });
   });
 }
 
-// Función para aplicar filtros manuales
-function aplicarFiltros(genre, plataforma) {
-  // Filtramos los juegos en el cliente según los filtros seleccionados
-  let juegosFiltrados = juegosCompletos;
+// Función para manejar la búsqueda de juegos
+document.querySelector(".search-input input").addEventListener('input', function () {
+  aplicarFiltros(); 
+});
 
-  if (genre) {
-    juegosFiltrados = juegosFiltrados.filter(game =>
-      game.genres.some(genero => genero.name === genre)
-    );
-  }
+// Función para limpiar filtros
+function limpiarFiltros() {
+  filtroGenero = '';
+  filtroPlataforma = '';
+  document.querySelector(".search-input input").value = '';  // Limpiar el campo de búsqueda
 
-  if (plataforma) {
-    juegosFiltrados = juegosFiltrados.filter(game =>
-      game.platforms.some(plataformaObj => plataformaObj.platform.name === plataforma)
-    );
-  }
+  // Recargamos los juegos sin filtros aplicados
+  getGames(1, 40); 
+  console.log("Filtros limpiados. Mostrando todos los juegos.");
 
-  // Procesamos los juegos filtrados
-  if (juegosFiltrados.length > 0) {
-    procesardatos(juegosFiltrados);
-  } else {
-    mostrarMensajeSinResultados();
+ 
+}
+
+
+
+// Función opcional para mostrar un mensaje si no se han aplicado filtros
+function mostrarMensajeSinFiltros() {
+  const contenedor = document.getElementById("contenedor");
+  if (contenedor) {
+    contenedor.innerHTML = "<p>Mostrando todos los juegos sin filtros aplicados.</p>";
   }
 }
-document.querySelector(".search-input input").addEventListener('input', function () {
-  const searchTerm = this.value.toLowerCase(); // Convertimos a minúsculas para comparar sin distinción de mayúsculas
 
-  const filteredGames = juegosCompletos.filter(game => 
-      game.name.toLowerCase().includes(searchTerm)
-  );
-  if (filteredGames.length === 0) {
-    mostrarMensajeSinResultados(); // Mostramos mensaje si no hay resultados
-  }
-  if (searchTerm === '') {
-    procesardatos(juegosCompletos); // Si no hay término de búsqueda, mostramos todos los juegos
-  }
-  
-  procesardatos(filteredGames); // Llama a la función para procesar y mostrar los juegos filtrados
-});
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelector(".limpiarFiltros").addEventListener('click', function (event) {
-    event.preventDefault();
-    document.querySelector(".search-input input").value = ''; // Limpiamos el campo de búsqueda
-    getGame(1, 40); // Recargamos los juegos sin filtros
-  });
-});
+// Manejo de eventos de navegación entre páginas
 document.addEventListener('DOMContentLoaded', function () {
-  let page = 1;
+  getGames(page, 40);
 
   // Manejo del botón "siguiente"
   document.querySelector('#paginasiguiente').addEventListener('click', function (event) {
-      event.preventDefault(); // Evita el comportamiento predeterminado del enlace
-      page += 1; // Incrementa la página
-      getGame(page, 40); // Llama a la función con la nueva página
+    event.preventDefault();
+    page += 1;
+    getGames(page, 40); // Recargamos los juegos sin filtros
   });
 
   // Manejo del botón "anterior"
   document.querySelector('#paginaanterior').addEventListener('click', function (event) {
-      event.preventDefault(); // Evita el comportamiento predeterminado del enlace
-      if (page > 1) {
-          page -= 1; // Decrementa la página si no es menor que 1
-      }
-      getGame(page, 40); // Llama a la función con la nueva página
+    event.preventDefault();
+    if (page > 1) {
+      page -= 1;
+    }
+    getGames(page, 40); // Recargamos los juegos sin filtros
   });
+
+  // Limpiar filtros
+  document.querySelector(".limpiarFiltros").addEventListener("click", limpiarFiltros);
 });
-
-
-getGame(1, 40);
 
