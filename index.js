@@ -205,5 +205,6 @@ function procesardatos(games) {
 
 }
 
+
 // Llamamos a la función principal
 getGame(1, 40);

@@ -144,3 +144,23 @@ main {
 .show-more-btn.active + .dropdown-items .dropdown-item:nth-child(n+5) {
     display: block;
 }
+
+/* Estilo personalizado para dispositivos pequeños */
+@media (max-width: 576px) {
+    .navbar-img img {
+        width: 80%;  /* Ajusta el tamaño de la imagen en pantallas pequeñas */
+    }
+
+    .main-navbar {
+        width: 100%;  /* Asegura que el filtro ocupe el 100% en pantallas pequeñas */
+    }
+
+    .main-cards {
+        width: 100%;  /* Asegura que las tarjetas ocupen el 100% en pantallas pequeñas */
+    }
+
+    .card-body {
+        padding: 10px;
+    }
+  
+}

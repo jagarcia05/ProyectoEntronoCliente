@@ -1,11 +1,11 @@
 import { plataformaicono } from './plataformaicono.js'; // Importamos el objeto
 
 
-
+let page = 1;
 let juegosCompletos = []; // Aquí guardaremos todos los juegos
 
 // Función para obtener todos los juegos sin filtros de plataforma y género
-function getGame(page = 1, pageSize = 40) {
+function getGame(page=1, pageSize = 40) {
   let url = `https://api.rawg.io/api/games?key=236c519bed714a588c3f1aee662a2c2d&page=${page}&page_size=${pageSize}`;
 
   console.log("URL construida:", url);  // Para depuración
@@ -110,11 +110,11 @@ function cargarFiltros(games) {
   listadoGeneros.forEach(genero => {
     let option = document.createElement("li");
     option.classList.add("dropdown-item-listageneros");
-  
+
     let option1 = document.createElement("a");
     option1.classList.add("text-decoration-none");
     option1.style.color = "black";
-    option1.href = "#";  
+    option1.href = "#";
     option1.textContent = genero;
     option1.setAttribute('data-genre', genero);
 
@@ -122,7 +122,7 @@ function cargarFiltros(games) {
     listaGeneros.appendChild(option);
 
     // Listener para filtrar por género
-    option1.addEventListener('click', function(event) {
+    option1.addEventListener('click', function (event) {
       event.preventDefault();
       const genre = this.getAttribute('data-genre');
       console.log("Filtrando por género:", genre);
@@ -159,10 +159,11 @@ function cargarFiltros(games) {
     listaPlataformas.appendChild(option);
 
     // Listener para filtrar por plataforma
-    option.addEventListener('click', function(event) {
+    option.addEventListener('click', function (event) {
       event.preventDefault();
       const plataforma = this.getAttribute('data-plataforma');
       console.log("Filtrando por plataforma:", plataforma);
+      
       aplicarFiltros('', plataforma); // Llamada con la plataforma seleccionada
     });
   });
@@ -192,7 +193,48 @@ function aplicarFiltros(genre, plataforma) {
     mostrarMensajeSinResultados();
   }
 }
+document.querySelector(".search-input input").addEventListener('input', function () {
+  const searchTerm = this.value.toLowerCase(); // Convertimos a minúsculas para comparar sin distinción de mayúsculas
 
-// Llamada inicial para cargar juegos sin filtros
+  const filteredGames = juegosCompletos.filter(game => 
+      game.name.toLowerCase().includes(searchTerm)
+  );
+  if (filteredGames.length === 0) {
+    mostrarMensajeSinResultados(); // Mostramos mensaje si no hay resultados
+  }
+  if (searchTerm === '') {
+    procesardatos(juegosCompletos); // Si no hay término de búsqueda, mostramos todos los juegos
+  }
+  
+  procesardatos(filteredGames); // Llama a la función para procesar y mostrar los juegos filtrados
+});
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelector(".limpiarFiltros").addEventListener('click', function (event) {
+    event.preventDefault();
+    document.querySelector(".search-input input").value = ''; // Limpiamos el campo de búsqueda
+    getGame(1, 40); // Recargamos los juegos sin filtros
+  });
+});
+document.addEventListener('DOMContentLoaded', function () {
+  let page = 1;
+
+  // Manejo del botón "siguiente"
+  document.querySelector('#paginasiguiente').addEventListener('click', function (event) {
+      event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+      page += 1; // Incrementa la página
+      getGame(page, 40); // Llama a la función con la nueva página
+  });
+
+  // Manejo del botón "anterior"
+  document.querySelector('#paginaanterior').addEventListener('click', function (event) {
+      event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+      if (page > 1) {
+          page -= 1; // Decrementa la página si no es menor que 1
+      }
+      getGame(page, 40); // Llama a la función con la nueva página
+  });
+});
+
+
 getGame(1, 40);
 

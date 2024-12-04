@@ -15,70 +15,71 @@
 </head>
 
 <body class="bg-black">
+  
     <header>
         <div class="row align-items-center bg-black text-white w-100 p-0 m-0">
-            <nav class="navbar p-0 m-0">
+            <nav class="navbar navbar-expand-lg navbar-dark p-0 m-0 w-100">
                 <div class="navbar-img">
-                    <img src="img/logo.png" alt="" class="img-fluid">
+                    <img src="img/logo.png" alt="Logo" class="img-fluid">
                 </div>
+                <div class="search-input ms-3">
+                    <input class="p-2" type="text" placeholder="Search" id="Search">
+                </div>
+                
 
-                <div class="navbar-menu">
-                    <div class="search-box">
-                        <input type="text" placeholder="Search">
-                    </div>
-
-                    <ul class="menu">
-                        <li>
-                            <a class="menu-link fw-bold text-white" href="#">LOG IN</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto w-50 justify-content-between">
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold text-white" href="#">LOG IN</a>
                         </li>
-                        <li>
-                            <a class="menu-link fw-bold text-white" href="#">SIGN UP</a>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold text-white" href="#">SIGN UP</a>
                         </li>
-                        <li>
-                            <a class="menu-link fw-bold text-white" href="#">API</a>
+                        <li class="nav-item ">
+                            <a class="nav-link fw-bold text-white limpiarFiltros" href="#">limpiarFiltros</a>
                         </li>
-                        <li>
-                            <a class="menu-link fw-bold text-white" href="#">...</a>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold text-white" href="#">...</a>
                         </li>
                     </ul>
                 </div>
             </nav>
         </div>
     </header>
+    
 
-    <main class="row ">
-
-        <section class="main-navbar bg-black">
+    <main class="row justify-content-between">
+        <section class="main-navbar bg-black col-12 col-md-3 p-3">
             <div class="dropdown mb-3">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownGeneros"
-                    data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownGeneros" data-bs-toggle="dropdown" aria-expanded="false">
                     Géneros
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownGeneros" id="listaGeneros"></ul>
             </div>
-        
+    
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownPlataformas"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Selecciona una Plataforma
+                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownPlataformas" data-bs-toggle="dropdown" aria-expanded="false">
+                    Plataforma
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownPlataformas" id="listaPlataformas"></ul>
             </div>
         </section>
-
-        <section class="main-cards bg-black">
+    
+        <section class="main-cards bg-black col-12 col-md-8 m-0 p-0">
             <div class="row p-2" id="contenedor">
-                <div class="col-sm-6 col-md-4 col-xl-3" id="plantilla">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3" id="plantilla">
                     <div class="card border-0 bg-dark text-white m-2 overflow-hidden"
                         style="transition: max-height 0.3s ease-in-out; max-height: 250px;"
                         onmouseover="this.style.maxHeight = '400px';" onmouseout="this.style.maxHeight = '250px';">
                         <img class="card-img-top" id="background_image" alt="Title" />
                         <div class="card-body">
-                            <!-- Contenido inicial siempre visible -->
                             <ul class="list-unstyled d-flex flex-wrap" id="platforms"></ul>
                             <h5 class="card-title" id="name"></h5>
-
-                            <!-- Información adicional que se muestra al hover -->
+    
                             <div class="additional-info mt-2" style="opacity: 0; transition: opacity 0.3s ease-in-out;"
                                 onmouseover="this.style.opacity = '1';" onmouseout="this.style.opacity = '0';">
                                 <ul class="list-unstyled d-flex flex-wrap gap-2" id="genres"></ul>
@@ -89,13 +90,27 @@
                 </div>
             </div>
         </section>
-
     </main>
 
 
-    <footer>
-        <!-- place footer here -->
+    <footer class="bg-black text-white">
+        <div class="d-flex justify-content-center py-3">
+            <li id="paginaanterior" class="list-inline-item">
+                <a class="text-decoration-none text-white" href="#">anterior</a>
+            </li>
+            <p class="mx-2">-</p>
+            <li id="paginasiguiente" class="list-inline-item">
+                <a class="text-decoration-none text-white" href="#">siguiente</a>
+            </li>
+        </div>
+    
+        <div class="row bg-black text-white p-2">
+            <div class="col-12 text-center">
+                <p>© 2021 All rights reserved</p>
+            </div>
+        </div>
     </footer>
+    
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -105,19 +120,9 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
 
-    <script>
-        document.querySelector('.show-more-btn').addEventListener('click', function () {
-            this.classList.toggle('active'); // Agrega o quita la clase activa
-            const items = document.querySelectorAll('.dropdown-items .dropdown-item:nth-child(n+5)');
-            items.forEach(item => {
-                item.style.display = item.style.display === 'none' ? 'block' : 'none';
-            });
-        });
-
-    </script>
-
+        <script type="module" src="js/listados.js"></script>
     
-    <script type="module" src="js/listados.js"></script>
+
 </body>
 
 </html>
