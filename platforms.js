@@ -6,7 +6,7 @@ fetch("https://api.rawg.io/api/platforms?key=236c519bed714a588c3f1aee662a2c2d")
     allPlatform = jsondata.results;
     procesarPlataformas(allPlatform);
     datosGrafico(allPlatform);
-  })
+  }) 
   .catch((error) => console.error("Error:", error));
 
 function procesarPlataformas(plataformas) {

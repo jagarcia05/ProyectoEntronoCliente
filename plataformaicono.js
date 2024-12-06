@@ -1,5 +1,5 @@
 export const plataformaicono = {
-    "PC": "img/windows.svg",
+    "PC": "img/windows.svg", 
     "PlayStation 5": "img/playstation.svg",
     "PlayStation 4": "img/playstation.svg",
     "Xbox One": "img/xbox.svg",

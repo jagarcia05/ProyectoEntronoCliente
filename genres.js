@@ -5,7 +5,7 @@ fetch("https://api.rawg.io/api/genres?key=236c519bed714a588c3f1aee662a2c2d")
     .then((jsondata) => {
         allGenre = jsondata.results;
         procesarGeneros(allGenre);
-        datosGrafico(allGenre);
+        datosGrafico(allGenre); 
     })
     .catch((error) => console.error("Error:", error));
 
@@ -91,4 +91,4 @@ function crearGrafico(nombresGeneros, juegosPorGenero) {
     });
 }
 
-/********************************************************************************/
+/********************************************************************************/ 

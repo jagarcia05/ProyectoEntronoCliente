@@ -5,7 +5,7 @@ let allGames = [];
 let filtroGenero = '';
 let filtroPlataforma = '';
 let listadoGeneros = new Set();
-let listadoPlataformas = new Set();
+let listadoPlataformas = new Set(); 
 
 /*******************************************************************************/
 // Datos de juegos
