@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
@@ -43,32 +43,16 @@
 
     <main class="bg-black row m-0 px-sm-5">
         <section class="p-3">
-            <div class="row pb-3">
-                <div class="col-12 col-sm-auto d-flex flex-column flex-sm-row gap-2">
-                    <button class="btn btn-secondary dropdown-toggle" id="dropdownButton" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">Filtrar Plataformas
-                    </button>
-                    <ul class="dropdown-menu bg-dark" id="listaPlataformas"></ul>
+            <canvas id="graficoPlataformas" width="400"></canvas>
 
-                    <button class="btn btn-secondary dropdown-toggle" id="dropdownButton" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">Filtrar Generos
-                    </button>
-                    <ul class="dropdown-menu bg-dark" id="listaGeneros"></ul>
-
-                    <button class="btn btn-secondary limpiarFiltros" type="button">Limpiar Filtros
-                    </button>
-                </div>
-            </div>
 
             <div class="row" id="contenedor">
-                <div class="col-12 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 d-flex d-none" id="plantilla">
+                <div class="col-12 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 d-flex" id="plantilla">
                     <div class="card flex-fill bg-dark text-white mb-3">
-                        <img class="card-img-top" id="game_background_image" />
+                        <img class="card-img-top" id="platform_background_image" />
                         <div class="card-body">
-                            <ul class="list-unstyled d-flex flex-wrap" id="game_platforms"></ul>
-                            <h4 class="card-title" id="game_name"></h4>
-                            <ul class="list-unstyled d-flex flex-wrap mb-0" id="game_genres"></ul>
-                            <h6 class="card-text" id="game_released"></h6>
+                            <h4 class="card-title" id="platform_name"></h4>
+                            <p class="card-text" id="platform_games_count"></p>
                         </div>
                     </div>
                 </div>
@@ -76,17 +60,7 @@
         </section>
     </main>
 
-    <footer class="bg-black text-white m-0 p-0">
-        <div class="d-flex justify-content-center py-3">
-            <li id="paginaanterior" class="list-inline-item me-3">
-                <a class="text-decoration-none" href="#"><i class="fa fa-backward text-white"
-                        aria-hidden="true"></i></a>
-            </li>
-            <li id="paginasiguiente" class="list-inline-item ms-3">
-                <a class="text-decoration-none" href="#"><i class="fa fa-forward text-white" aria-hidden="true"></i></a>
-            </li>
-        </div>
-
+    <footer>
         <div class="bg-black text-white p-2 m-0">
             <div class="text-center">
                 <p>© 2021 All rights reserved</p>
@@ -101,7 +75,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="platforms.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>
