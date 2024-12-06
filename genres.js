@@ -90,3 +90,5 @@ function crearGrafico(nombresGeneros, juegosPorGenero) {
         }
     });
 }
+
+/********************************************************************************/
