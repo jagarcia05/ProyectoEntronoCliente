@@ -1,24 +1,36 @@
 let allGenre = [];
 
+/*******************************************************************************/
+// Peticion de los Datos
+
 fetch("https://api.rawg.io/api/genres?key=236c519bed714a588c3f1aee662a2c2d")
     .then((response) => response.json())
     .then((jsondata) => {
         allGenre = jsondata.results;
         procesarGeneros(allGenre);
-        datosGrafico(allGenre); 
+        datosGrafico(allGenre);
     })
     .catch((error) => console.error("Error:", error));
+
+/*******************************************************************************/
+// Datos de generos
 
 function procesarGeneros(generos) {
     let plantilla = document.getElementById("plantilla");
     let contenedor = plantilla.parentNode;
 
-    while (contenedor.firstChild) {
-        contenedor.removeChild(contenedor.firstChild);
+    const existingCards = contenedor.querySelectorAll(".genre-card");
+    existingCards.forEach((card) => card.remove());
+
+    if (generos.length === 0) {
+        mostrarMensajeSinResultados();
+        return;
     }
 
     generos.forEach((genre) => {
         let tarjeta = plantilla.cloneNode(true);
+        tarjeta.classList.remove("d-none");
+        tarjeta.classList.add("genre-card");
         contenedor.appendChild(tarjeta);
 
         let imagen = tarjeta.querySelector("#genre_background_image");
@@ -30,6 +42,8 @@ function procesarGeneros(generos) {
 
         let juegosCount = tarjeta.querySelector("#genre_games_count");
         juegosCount.textContent = "Cantidad de juegos: " + genre.games_count;
+
+        tarjeta.setAttribute("id", "genre_" + genre.id);
     });
 }
 
@@ -50,6 +64,15 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("No se encontró el input de búsqueda en el DOM.");
     }
 });
+
+function mostrarMensajeSinResultados() {
+    const contenedor = document.getElementById("contenedor");
+    if (contenedor) {
+        contenedor.innerHTML = `
+        <p class="text-white">No se encontraron generos que coincidan con los filtros seleccionados.</p>
+      `;
+    }
+}
 
 /*******************************************************************************/
 // Grafico
@@ -91,4 +114,26 @@ function crearGrafico(nombresGeneros, juegosPorGenero) {
     });
 }
 
-/********************************************************************************/ 
+/*******************************************************************************/
+// Me gusta
+
+document.addEventListener("click", function (event) {
+    if (event.target.closest(".like-button")) {
+        const card = event.target.closest(".genre-card");
+        const genreId = card.getAttribute("id").split("_")[1];
+
+        const genre = allGenre.find((genre) => genre.id == genreId);
+
+        let generosFavoritos = JSON.parse(localStorage.getItem("generosFavoritos")) || [];
+
+        if (!generosFavoritos.some((fav) => fav.id === genre.id)) {
+            generosFavoritos.push(genre);
+            localStorage.setItem("generosFavoritos", JSON.stringify(generosFavoritos));
+            console.log(`Genero añadido a favoritos: ${genre.name}`);
+        } else {
+            console.log("El genero ya está en favoritos.");
+        }
+    }
+});
+
+/*******************************************************************************/
