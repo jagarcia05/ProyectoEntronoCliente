@@ -23,8 +23,8 @@ function procesarPlataformas(plataformas) {
   existingCards.forEach((card) => card.remove());
 
   if (plataformas.length === 0) {
-      mostrarMensajeSinResultados();
-      return;
+    mostrarMensajeSinResultados();
+    return;
   }
 
   plataformas.forEach((platform) => {
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function mostrarMensajeSinResultados() {
   const contenedor = document.getElementById("contenedor");
   if (contenedor) {
-      contenedor.innerHTML = `
+    contenedor.innerHTML = `
       <p class="text-white">No se encontraron plataformas que coincidan con los filtros seleccionados.</p>
     `;
   }

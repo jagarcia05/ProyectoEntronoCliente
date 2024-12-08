@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header class="bg-black">
         <nav class="navbar navbar-expand-md navbar-dark m-0 p-3 w-100">
             <div class="col-2 col-lg-2 col-md-2">
@@ -44,7 +44,7 @@
         </nav>
     </header>
 
-    <main class="bg-black row m-0 px-sm-5">
+    <main class="bg-black row m-0 px-sm-5 flex-grow-1">
         <section class="p-3">
             <canvas id="graficoPlataformas" width="400" height="150%"></canvas>
 
@@ -55,7 +55,8 @@
                         <div class="card-body">
                             <h4 class="card-title" id="platform_name"></h4>
                             <p class="card-text" id="platform_games_count"></p>
-                            <button class="btn btn-outline-light btn-sm like-button position-absolute bottom-0 end-0 m-1">
+                            <button
+                                class="btn btn-outline-light btn-sm like-button position-absolute bottom-0 end-0 m-1">
                                 <i class="fa fa-heart"></i>
                             </button>
                         </div>

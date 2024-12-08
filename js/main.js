@@ -5,7 +5,7 @@ let allGames = [];
 let filtroGenero = '';
 let filtroPlataforma = '';
 let listadoGeneros = new Set();
-let listadoPlataformas = new Set(); 
+let listadoPlataformas = new Set();
 
 /*******************************************************************************/
 // Peticion de los Datos
@@ -240,20 +240,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("click", function (event) {
   if (event.target.closest(".like-button")) {
-      const card = event.target.closest(".game-card");
-      const gameId = card.getAttribute("id").split("_")[1];
+    const card = event.target.closest(".game-card");
+    const gameId = card.getAttribute("id").split("_")[1];
 
-      const game = allGames.find((game) => game.id == gameId);
+    const game = allGames.find((game) => game.id == gameId);
 
-      let juegosFavoritos = JSON.parse(localStorage.getItem("juegosFavoritos")) || [];
+    let juegosFavoritos = JSON.parse(localStorage.getItem("juegosFavoritos")) || [];
 
-      if (!juegosFavoritos.some((fav) => fav.id === game.id)) {
-        juegosFavoritos.push(game);
-          localStorage.setItem("juegosFavoritos", JSON.stringify(juegosFavoritos));
-          console.log(`Juego añadido a favoritos: ${game.name}`);
-      } else {
-          console.log("El juego ya está en favoritos.");
-      }
+    if (!juegosFavoritos.some((fav) => fav.id === game.id)) {
+      juegosFavoritos.push(game);
+      localStorage.setItem("juegosFavoritos", JSON.stringify(juegosFavoritos));
+      console.log(`Juego añadido a favoritos: ${game.name}`);
+    } else {
+      console.log("El juego ya está en favoritos.");
+    }
   }
 });
 
