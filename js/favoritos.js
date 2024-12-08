@@ -12,8 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     juegosFavoritos.forEach((game) => {
         const card = document.createElement("div");
-        card.classList.add("col-12", "col-xl-3", "col-lg-3", "col-md-4", "col-sm-6", "mb-3", "d-flex");
-
+        card.classList.add("col-12", "col-xl-3", "col-lg-3", "col-md-4", "col-sm-6", "mb-3", "col-xs-12", "d-flex");
         card.innerHTML = `
             <div class="card flex-fill bg-dark text-white mb-3 position-relative">
                 <img class="card-img-top" src="${game.background_image}" alt="${game.name}">
