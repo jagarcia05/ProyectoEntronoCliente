@@ -27,6 +27,14 @@ function getGames(page = 1, pageSize = 40) {
 // Datos de juegos
 
 function procesarGames(juegos) {
+  // Verificar si juegos es un array
+  if (!Array.isArray(juegos)) {
+    console.error("La función procesarGames espera un array de juegos.");
+    // Aquí puedes decidir qué hacer si no es un array. Por ejemplo:
+    window.location.reload();  // Recargar la página si no es un array
+    return;
+  }
+
   const juegosFiltrados = juegos.filter((game) => {
     const coincideGenero =
       !filtroGenero || game.genres.some((g) => g.name === filtroGenero);
@@ -35,16 +43,27 @@ function procesarGames(juegos) {
     return coincideGenero && coincidePlataforma;
   });
 
-  let plantilla = document.getElementById("plantilla");
-  let contenedor = plantilla.parentNode;
-
-  const existingCards = contenedor.querySelectorAll(".game-card");
-  existingCards.forEach((card) => card.remove());
-
   if (juegosFiltrados.length === 0) {
     mostrarMensajeSinResultados();
     return;
   }
+
+  let plantilla = document.getElementById("plantilla");
+  if (!plantilla) {
+    console.error("No se encontró el elemento 'plantilla' en el DOM.");
+    getGames(page, 40); // Re-cargar todos los juegos
+    return;
+  }
+
+  let contenedor = plantilla.parentNode;
+  if (!contenedor) {
+    console.error("No se encontró el contenedor de la plantilla.");
+    getGames(page, 40); // Re-cargar todos los juegos
+    return;
+  }
+
+  const existingCards = contenedor.querySelectorAll(".game-card");
+  existingCards.forEach((card) => card.remove());
 
   juegosFiltrados.forEach((game) => {
     let tarjeta = plantilla.cloneNode(true);
@@ -53,18 +72,16 @@ function procesarGames(juegos) {
     contenedor.appendChild(tarjeta);
 
     tarjeta.setAttribute("id", "game_" + game.id);
-    console.log(`Game ID: ${game.id}`);
 
     let card = tarjeta.querySelector(".card");
-  
+
     let enlace = document.createElement("a");
     enlace.href = `juegosinfo.html?id=${game.id}`;
     enlace.classList.add("stretched-link");
-    
     card.appendChild(enlace);
 
     let imagen = tarjeta.querySelector("#game_background_image");
-    imagen.setAttribute("src", game.background_image);
+    imagen.setAttribute("src", game.background_image || "placeholder.jpg");
     imagen.setAttribute("alt", game.name);
 
     const plataformas = tarjeta.querySelector("#game_platforms");
@@ -162,34 +179,66 @@ function cargarListados(jsondata) {
 // Filtros
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Obtener los juegos al cargar la página
+  getGames(page, 40);
+
+  // Filtro de géneros
   const listaGeneros = document.getElementById("listaGeneros");
-  listaGeneros.addEventListener("click", function (event) {
-    if (event.target.tagName === "A") {
-      event.preventDefault();
-      filtroGenero = event.target.textContent;
-      procesarGames(allGames);
-    }
-  });
+  if (listaGeneros) {
+    listaGeneros.addEventListener("click", function (event) {
+      if (event.target.tagName === "A") {
+        event.preventDefault();
+        const generoSeleccionado = event.target.getAttribute("data-genre");
 
+        // Cambiar el filtro o limpiarlo si ya está seleccionado
+        filtroGenero = filtroGenero === generoSeleccionado ? '' : generoSeleccionado;
+        console.log(`Filtro de género actualizado: ${filtroGenero}`);
+
+        // Procesar juegos con el nuevo filtro
+        procesarGames(allGames);
+      }
+    });
+  } else {
+    procesarGames(page, 40);
+    console.error("No se encontró el elemento listaGeneros en el DOM.");
+  }
+
+  // Filtro de plataformas
   const listaPlataformas = document.getElementById("listaPlataformas");
-  listaPlataformas.addEventListener("click", function (event) {
-    if (event.target.tagName === "A") {
-      event.preventDefault();
-      filtroPlataforma = event.target.textContent;
+  if (listaPlataformas) {
+    listaPlataformas.addEventListener("click", function (event) {
+      if (event.target.tagName === "A") {
+        event.preventDefault();
+        filtroPlataforma = event.target.textContent;
+        procesarGames(allGames);
+      }
+    });
+  } else {
+    console.error("No se encontró el elemento listaPlataformas en el DOM.");
+  }
+
+  // Limpiar filtros
+  const limpiarFiltrosButton = document.querySelector(".limpiarFiltros");
+  if (limpiarFiltrosButton) {
+    limpiarFiltrosButton.addEventListener("click", function () {
+      filtroGenero = '';
+      filtroPlataforma = '';
+      document.querySelector(".search-input input").value = "";
+
+      // Procesar juegos sin filtros
+      if (allGames.length === 0) {
+        getGames(page, 40);
+        return;
+      }
       procesarGames(allGames);
-    }
-  });
 
-  document.querySelector(".limpiarFiltros").addEventListener("click", function () {
-    filtroGenero = '';
-    filtroPlataforma = '';
-    document.querySelector(".search-input input").value = "";
-
-    procesarGames(1, 40);
-
-    console.log("Filtros limpiados. Mostrando todos los juegos.");
-  });
+      console.log("Filtros limpiados. Mostrando todos los juegos.");
+    });
+  } else {
+    console.error("No se encontró el botón limpiarFiltros en el DOM.");
+  }
 });
+
 
 function mostrarMensajeSinResultados() {
   const contenedor = document.getElementById("contenedor");
@@ -240,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.querySelector(".limpiarFiltros").addEventListener("click", function () {
     document.querySelector(".search-input input").value = "";
-    procesarGames(allGames);
+    procesarGames(page, 40);
   });
 });
 

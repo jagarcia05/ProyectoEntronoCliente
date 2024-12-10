@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+/*******************************************************************************/
+// Peticion de los Datos
+
 function getGameDetails(gameId) {
     const url = `https://api.rawg.io/api/games/${gameId}?key=236c519bed714a588c3f1aee662a2c2d`;
     fetch(url)
@@ -17,14 +20,15 @@ function getGameDetails(gameId) {
         .catch((error) => console.error("Error", error));
 }
 
+/*******************************************************************************/
+// Datos del juego
+
 function mostrarDetalle(game) {
     console.log(game);
 
-    // Seleccionar la plantilla y su contenedor
     let plantilla = document.getElementById("plantilla");
     let contenedor = plantilla.parentNode;
 
-    // Actualizar imagen del juego
     let imagen = contenedor.querySelector("#background_image");
     imagen.setAttribute("src", game.background_image);
     imagen.setAttribute("alt", game.name);
@@ -80,5 +84,6 @@ function mostrarDetalle(game) {
         legendItem.appendChild(text);
         ratingLegend.appendChild(legendItem);
     });
-    
 }
+
+/*******************************************************************************/
