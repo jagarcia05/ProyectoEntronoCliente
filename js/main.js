@@ -126,6 +126,8 @@ function procesarGames(juegos) {
   });
 }
 
+
+
 /********************************************************************************/
 // Listados para filtrar
 
@@ -246,6 +248,7 @@ function mostrarMensajeSinResultados() {
     contenedor.innerHTML = `
       <p class="text-white">No se encontraron juegos que coincidan con los filtros seleccionados.</p>
     `;
+    procesarGames(1, 40);
   }
 }
 
