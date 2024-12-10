@@ -52,6 +52,17 @@ function procesarGames(juegos) {
     tarjeta.classList.add("game-card");
     contenedor.appendChild(tarjeta);
 
+    tarjeta.setAttribute("id", "game_" + game.id);
+    console.log(`Game ID: ${game.id}`);
+
+    let card = tarjeta.querySelector(".card");
+  
+    let enlace = document.createElement("a");
+    enlace.href = `juegosinfo.html?id=${game.id}`;
+    enlace.classList.add("stretched-link");
+    
+    card.appendChild(enlace);
+
     let imagen = tarjeta.querySelector("#game_background_image");
     imagen.setAttribute("src", game.background_image);
     imagen.setAttribute("alt", game.name);
@@ -95,8 +106,6 @@ function procesarGames(juegos) {
     let released = tarjeta.querySelector("#game_released");
     released.textContent = "Fecha de salida: " + game.released;
     released.style.fontWeight = "normal";
-
-    tarjeta.setAttribute("id", "game_" + game.id);
   });
 }
 

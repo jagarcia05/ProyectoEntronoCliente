@@ -4,3 +4,40 @@ body {
     min-height: 100dvh;
     grid-template-rows: auto 1fr auto;
 }
+
+.rating-bar {
+    display: flex;
+    height: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+
+.exceptional {
+    background-color: #4caf50;
+}
+
+.recommended {
+    background-color: #2196f3;
+}
+
+.meh {
+    background-color: #ff9800;
+}
+
+.skip {
+    background-color: #f44336;
+}
+
+.rating-legend p {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
