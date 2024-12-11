@@ -181,42 +181,40 @@ function cargarListados(jsondata) {
 // Filtros
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Obtener los juegos al cargar la página
   getGames(page, 40);
 
   // Filtro de géneros
   const listaGeneros = document.getElementById("listaGeneros");
+  const dropdownGenero = document.getElementById("dropdownButtonGenero");
   if (listaGeneros) {
     listaGeneros.addEventListener("click", function (event) {
       if (event.target.tagName === "A") {
         event.preventDefault();
         const generoSeleccionado = event.target.getAttribute("data-genre");
 
-        // Cambiar el filtro o limpiarlo si ya está seleccionado
         filtroGenero = filtroGenero === generoSeleccionado ? '' : generoSeleccionado;
-        console.log(`Filtro de género actualizado: ${filtroGenero}`);
 
-        // Procesar juegos con el nuevo filtro
+        dropdownGenero.textContent = filtroGenero || "Filtrar Géneros";
+
         procesarGames(allGames);
       }
     });
-  } else {
-    procesarGames(page, 40);
-    console.error("No se encontró el elemento listaGeneros en el DOM.");
   }
 
   // Filtro de plataformas
   const listaPlataformas = document.getElementById("listaPlataformas");
+  const dropdownPlataforma = document.getElementById("dropdownButtonPlataforma");
   if (listaPlataformas) {
     listaPlataformas.addEventListener("click", function (event) {
       if (event.target.tagName === "A") {
         event.preventDefault();
-        filtroPlataforma = event.target.textContent;
+        filtroPlataforma = filtroPlataforma === event.target.textContent ? '' : event.target.textContent;
+
+        dropdownPlataforma.textContent = filtroPlataforma || "Filtrar Plataformas";
+
         procesarGames(allGames);
       }
     });
-  } else {
-    console.error("No se encontró el elemento listaPlataformas en el DOM.");
   }
 
   // Limpiar filtros
@@ -227,19 +225,16 @@ document.addEventListener("DOMContentLoaded", function () {
       filtroPlataforma = '';
       document.querySelector(".search-input input").value = "";
 
-      // Procesar juegos sin filtros
-      if (allGames.length === 0) {
-        getGames(page, 40);
-        return;
-      }
+      dropdownGenero.textContent = "Filtrar Géneros";
+      dropdownPlataforma.textContent = "Filtrar Plataformas";
+
       procesarGames(allGames);
 
       console.log("Filtros limpiados. Mostrando todos los juegos.");
     });
-  } else {
-    console.error("No se encontró el botón limpiarFiltros en el DOM.");
   }
 });
+
 
 
 function mostrarMensajeSinResultados() {
