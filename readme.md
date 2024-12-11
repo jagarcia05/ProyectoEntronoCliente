@@ -3,7 +3,8 @@
 
 > [!NOTE]  
 > Este repositorio contiene una aplicación web interactiva que permite explorar juegos, plataformas y generos de juegos.
-
+## Apiconsultada
+https://api.rawg.io/api/games?key=236c519bed714a588c3f1aee662a2c2d&page
 ## Archivos Importantes  
 
 ### **HTML**  

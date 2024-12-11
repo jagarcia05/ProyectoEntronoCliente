@@ -243,6 +243,10 @@ function mostrarMensajeSinResultados() {
     contenedor.innerHTML = `
       <p class="text-white">No se encontraron juegos que coincidan con los filtros seleccionados.</p>
     `;
+    setTimeout(() => {
+      procesarGames(page, 40);
+    },3000);
+   
   }
 }
 
@@ -260,6 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
       procesarGames(juegosFiltrados);
     });
   } else {
+    procesarGames(allGames);
     console.error("No se encontró el input de búsqueda en el DOM.");
   }
 });
