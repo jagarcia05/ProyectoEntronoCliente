@@ -75,10 +75,10 @@ function procesarGames(juegos) {
 
     let card = tarjeta.querySelector(".card");
 
-    let enlace = document.createElement("a");
-    enlace.href = `juegosinfo.html?id=${game.id}`;
-    enlace.classList.add("stretched-link");
-    card.appendChild(enlace);
+    let enlace = tarjeta.querySelector("#link");
+    enlace.setAttribute("href", `juegosinfo.html?id=${game.id}`);
+    enlace.style.color = "white";
+    enlace.style.textDecoration = "none";
 
     let imagen = tarjeta.querySelector("#game_background_image");
     imagen.setAttribute("src", game.background_image || "placeholder.jpg");
