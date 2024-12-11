@@ -1,32 +1,43 @@
-# Video Games Library Web App
+> [!IMPORTANT]  
+> ¡Bienvenido a nuestro repositorio!  
 
-Este proyecto es una aplicación web que permite a los usuarios explorar una biblioteca de videojuegos obtenida a través de la API de **RAWG.io**. Los usuarios pueden filtrar juegos por género y plataforma, además de visualizar detalles como la fecha de lanzamiento, plataformas disponibles y géneros de cada juego.
+> [!NOTE]  
+> Este repositorio contiene una aplicación web interactiva que permite explorar juegos, plataformas y generos de juegos.
 
----
+## Archivos Importantes  
 
-## Características Principales
+### **HTML**  
 
-- **Exploración de Videojuegos**: Obtén y muestra información de videojuegos populares.
-- **Filtros Dinámicos**: Filtra los juegos por género y plataforma.
-- **Diseño Interactivo**: Usa Bootstrap y CSS para una interfaz intuitiva y responsiva.
-- **Hover Animations**: Detalles adicionales de cada juego visibles al pasar el mouse.
+- **index.html**: Página principal de la aplicación que muestra información sobre los juegos.  
+- **platforms.html**: Muestra las plataformas.  
+- **genres.html**: Muestra las plataformas.  
+- **favoritos.html**: Lista de juegos, plataformas y generos favoritos.   
+- **juegosindo.html**: Detalles específicos de un juego.  
 
----
+### **CSS**  
 
-## Requisitos Previos
+La pagina esta realizada en su mayoria con Bootstrap, pero usamos algunos estilos especificos mediante:
+- **css/style.css**: Estilos generales de la aplicación.  
 
-- **Editor de Código**: Visual Studio Code, Sublime Text, etc.
-- **Servidor Local**: Se recomienda [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) para probar el proyecto.
-- **Navegador Moderno**: Compatible con Chrome, Firefox, Edge, etc.
+### **JavaScript**  
 
----
+- **js/main.js**: Funciones para generar las cards de juegos y cargar los filtros y el buscador.  
+- **js/juegosindo.js**: Funciones para mostrar detalles especificos de un juego 
+- **js/genres.js**: Funciones para generar las cards y el grafico de los generos.  
+- **js/platforms.js**: Funciones para generar las cards y el grafico de las plataformas. 
+- **js/plataformaicono.js**: Archivo que hace una correspondencia para mostrar las imagenes de la plataforma.  
+- **js/favoritos.js**: Funciones para manejar juegos, plataformas y generos favoritos. 
 
-## Instalación
+## Uso  
 
-1. Clona este repositorio en tu máquina local:
-   ```bash
-   git clone https://github.com/tu-usuario/video-games-library.git
+1. Abre `index.html` en tu navegador para acceder a la página principal.  
+2. Navega a `platforms.html`/`genres.html` para explorar mas informacion sobre la página.  
+3. Guarda juegos, plataformas y generos en favoritos y consúltalos en `favoritos.html`.  
+4. Consulta información más especifica de los juegos clickando en su card.  
+
 ## Enlaces
 
 - **Repositorio en GitHub**: [ProyectoEntornoCliente](https://github.com/jagarcia05/ProyectoEntronoCliente.git)
 - **Demo en Vivo**: [Ver Proyecto](https://jagarcia05.github.io/ProyectoEntronoCliente/)
+
+Creado por: @danielMarmo, @jagarcia05
